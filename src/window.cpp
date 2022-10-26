@@ -1,12 +1,6 @@
 #include <shared/graph_utils.hpp>
 #include <GLFW/glfw3.h>
 
-/*
-
-initializes the boolean properties to avoid undefined behaviour bugs
-when comparing
-
-*/
 
 GUTILSproject::~GUTILSproject() {
   glfwTerminate();
@@ -19,6 +13,12 @@ bool GUTILSproject::propertiesFalsified() const {
   return false;
 }
 
+/*
+
+initializes the boolean properties to false to avoid undefined behaviour bugs
+when comparing
+
+*/
 void GUTILSproject::falsifyProperties() {
   glfw_initialized = false;
   window_hints_set = false;
