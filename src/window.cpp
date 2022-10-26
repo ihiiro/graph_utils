@@ -1,5 +1,4 @@
 #include <shared/graph_utils.hpp>
-// #include <string.h>
 #include <GLFW/glfw3.h>
 
 /*
@@ -8,7 +7,19 @@ initializes the boolean properties to avoid undefined behaviour bugs
 when comparing
 
 */
-void GUTILSproject::init() {
+
+GUTILSproject::~GUTILSproject() {
+  glfwTerminate();
+}
+
+bool GUTILSproject::propertiesFalsified() const {
+  if ( !glfw_initialized && !window_hints_set && !window_is_not_null && !framebuffer_size_callback_set ) {
+    return true;
+  }
+  return false;
+}
+
+void GUTILSproject::falsifyProperties() {
   glfw_initialized = false;
   window_hints_set = false;
   window_is_not_null = false;
@@ -16,6 +27,10 @@ void GUTILSproject::init() {
 }
 
 void GUTILSproject::initializeGlfw() {
+  if (!propertiesFalsified()) {
+    falsifyProperties();
+  }
+
   if (glfwInit() == GLFW_FALSE) {
     glfw_initialized = false;
     return;
@@ -25,6 +40,10 @@ void GUTILSproject::initializeGlfw() {
 }
 
 void GUTILSproject::setGlfwWindowHints() {
+  if (!glfw_initialized) {
+    return;
+  }
+
   if (!glfw_initialized) {
     window_hints_set = false;
     return;
@@ -38,7 +57,11 @@ void GUTILSproject::setGlfwWindowHints() {
   window_hints_set = true;
 }
 
-void GUTILSproject::createWindow(short width, short height, std::string_view title) {
+void GUTILSproject::createWindow(short width, short height, const char* title) {
+  if (!window_hints_set) {
+    return;
+  }
+
   if (!window_hints_set) {
     window_is_not_null = false;
     return;
@@ -56,12 +79,16 @@ void GUTILSproject::createWindow(short width, short height, std::string_view tit
 }
 
 void GUTILSproject::setFramebufferSizeCallback() {
+  if (!window_is_not_null) {
+    return;
+  }
+
   if (window_is_not_null == false) {
     framebuffer_size_callback_set = false;
     return;
   }
 
-  glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, short width, short height) {
+  glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
   });
   framebuffer_size_callback_set = true;

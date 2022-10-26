@@ -1,8 +1,7 @@
-#include <someunittest.hpp>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
+#include <test_window.hpp>
 
 int main() {
+  test_window();
 
+  return 0;
 }

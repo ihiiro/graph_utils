@@ -15,8 +15,12 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN TRUE)
 # add library with source and header files
 add_library(${PROJECT_NAME}
   SHARED
-  ${CMAKE_SOURCE_DIR}/include/shared/graph_utils.hpp
-  ${CMAKE_SOURCE_DIR}/src/graph_utils.cpp
+  # ${CMAKE_SOURCE_DIR}/include/shared/graph_utils.hpp
+  ${CMAKE_SOURCE_DIR}/include/graph_utils_export.h
+  ${CMAKE_SOURCE_DIR}/src/window.cpp
+
+  ${CMAKE_SOURCE_DIR}/tests/test_window.cpp
+  ${CMAKE_SOURCE_DIR}/tests/tester.cpp
 )
 
 # tell compiler where to find public headers
