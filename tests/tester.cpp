@@ -1,6 +1,5 @@
 #include <iostream>
 #include <tester.hpp>
-#include <typeinfo>
 
 void tester::printCurrentFileName(std::string_view filename) {
   std::cout << filename << std::endl;
