@@ -4,5 +4,5 @@
 #include <GLFW/glfw3.h>
 
 int main() {
-  graph_utils::print();
+  gutilsInitializeWindow(500, 500, "My window");
 }
