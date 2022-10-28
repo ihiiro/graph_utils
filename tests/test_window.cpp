@@ -1,39 +1,23 @@
-/*---------------------------------------------------------------------------------------------*/
-/*----------------------------------window unit tests------------------------------------------*/
-/*---------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------*/
+/*----------------------------------window.cpp unit tests------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------*/
 
 
 #include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <shared/graph_utils.hpp>
 #include <test_window.hpp>
-#include <tester.hpp>
-#include <string.h>
+
+#include <cassert>
 
 void test_window() {
-  tester::printCurrentFileName(__FILE__);
-
   GUTILSproject Project;
 
-  Project.falsifyProperties();
-  tester::boolTest("Project.propertiesFalsified()", Project.propertiesFalsified(), true);
+  std::cout << "TESTING window.cpp..." << "\n\n";
 
-  Project.initializeGlfw();
-  tester::boolTest("Project.glfw_initialized", Project.glfw_initialized, true);
+  assert(Project.initializeGlfw() && "GLFW could not be initialized");
+  assert(Project.setGlfwWindowHints() && "GLFW window hints could not be set");
+  assert(Project.createWindow(500, 500, "test window") && "window could not be created");
+  assert(Project.setFramebufferSizeCallback() && "framebuffer size callback could not be set");
 
-  Project.setGlfwWindowHints();
-  tester::boolTest("Project.window_hints_set", Project.window_hints_set, true);
-
-  int width;
-  int height;
-  int set_width = 500;
-  int set_height = 500;
-  Project.createWindow(set_width, set_height, "Some title");
-  glfwGetWindowSize(Project.window, &width, &height);
-  tester::intTest("set_width", set_width, width);
-  tester::intTest("set_height", set_height, height);
-
-  Project.setFramebufferSizeCallback();
-  tester::boolTest("Project.framebuffer_size_callback_set", Project.framebuffer_size_callback_set, true);
+  std::cout << "\n\n";
 }
