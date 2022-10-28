@@ -1,6 +1,5 @@
 #include <iostream>
-// #include <shared/graph_utils.hpp>
-// #include <GLFW/glfw3.h>
+#include <shared/graph_utils.hpp>
 
 int main() {
   return 0;
