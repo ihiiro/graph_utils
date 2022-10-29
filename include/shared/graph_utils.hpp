@@ -19,7 +19,7 @@ export symbols (needed for windows dlls)
 
 #include <internal/internal.hpp>
 
-class GUTILSproject: public InternalGUTILSproject {
+class GRAPH_UTILS_EXPORT GUTILSproject: public internal::GUTILSproject {
 };
 
 /*--------------------------------------------------------------------------------------*/

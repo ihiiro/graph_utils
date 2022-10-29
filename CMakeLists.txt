@@ -16,7 +16,6 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN TRUE)
 add_library(graph_utils
   SHARED
   ${CMAKE_SOURCE_DIR}/src/window.cpp
-  ${CMAKE_SOURCE_DIR}/internal/internal.hpp
   ${CMAKE_SOURCE_DIR}/internal/internal_window.cpp
 )
 

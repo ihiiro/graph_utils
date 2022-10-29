@@ -1,10 +1,10 @@
 #include <internal/internal.hpp>
 
-InternalGUTILSproject::~InternalGUTILSproject() {
+internal::GUTILSproject::~GUTILSproject() {
   glfwTerminate();
 }
 
-bool InternalGUTILSproject::initializeGlfw() {
+bool internal::GUTILSproject::initializeGlfw() {
   if (glfwInit() == GLFW_FALSE) {
     return false;
   }
@@ -12,7 +12,7 @@ bool InternalGUTILSproject::initializeGlfw() {
   return true;
 }
 
-bool InternalGUTILSproject::setGlfwWindowHints() {
+bool internal::GUTILSproject::setGlfwWindowHints() {
   try {
     // preconfiguring glfw
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -26,7 +26,7 @@ bool InternalGUTILSproject::setGlfwWindowHints() {
   return true;
 }
 
-bool InternalGUTILSproject::createWindow(short width, short height, const char* title) {
+bool internal::GUTILSproject::createWindow(short width, short height, const char* title) {
   try {
     window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (window == NULL) {
@@ -43,7 +43,7 @@ bool InternalGUTILSproject::createWindow(short width, short height, const char* 
   return true;
 }
 
-bool InternalGUTILSproject::setFramebufferSizeCallback() {
+bool internal::GUTILSproject::setFramebufferSizeCallback() {
   try {
     glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {
       glViewport(0, 0, width, height);
@@ -56,10 +56,6 @@ bool InternalGUTILSproject::setFramebufferSizeCallback() {
   return true;
 }
 
-GLFWwindow* InternalGUTILSproject::getWindowObject() const {
-  if (window == NULL) {
-    return NULL;
-  }
-
+GLFWwindow* internal::GUTILSproject::getWindowObject() const {
   return window;
 }

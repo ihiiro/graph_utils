@@ -6,20 +6,26 @@
 
 #include <GLFW/glfw3.h>
 
-class InternalGUTILSproject {
-  /*--------------------------------------------------------------------------------------*/
-  /*------------------------------window and resizing-------------------------------------*/
-  /*--------------------------------------------------------------------------------------*/
-private:
-  GLFWwindow* window;
-public:
-  // getters
-  GLFWwindow* getWindowObject() const;
+// for exporting symbols
+#include <graph_utils_export.h>
 
-  bool initializeGlfw();
-  bool setGlfwWindowHints();
-  bool createWindow(short x, short y, const char* title);
-  bool setFramebufferSizeCallback();
+namespace internal {
+  class GUTILSproject {
+    /*--------------------------------------------------------------------------------------*/
+    /*------------------------------WINDOW AND RESIZING-------------------------------------*/
+    /*--------------------------------------------------------------------------------------*/
+  private:
+    GLFWwindow* window;
+  public:
+    // getters
+    GLFWwindow* getWindowObject() const;
 
-  ~InternalGUTILSproject();
-};
+    bool initializeGlfw();
+    bool setGlfwWindowHints();
+    bool createWindow(short x, short y, const char* title);
+    bool setFramebufferSizeCallback();
+
+    GRAPH_UTILS_EXPORT ~GUTILSproject();
+  };
+
+}
