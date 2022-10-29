@@ -20,6 +20,8 @@ export symbols (needed for windows dlls)
 #include <internal/internal.hpp>
 
 class GRAPH_UTILS_EXPORT GUTILSproject: public internal::GUTILSproject {
+public:
+  bool init(short width, short height, const char* title);
 };
 
 /*--------------------------------------------------------------------------------------*/

@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <shared/graph_utils.hpp>
 
 #include <test_window.hpp>

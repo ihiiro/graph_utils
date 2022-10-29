@@ -22,7 +22,7 @@ namespace internal {
 
     bool initializeGlfw();
     bool setGlfwWindowHints();
-    bool createWindow(short x, short y, const char* title);
+    bool createWindow(short width, short height, const char* title);
     bool setFramebufferSizeCallback();
 
     GRAPH_UTILS_EXPORT ~GUTILSproject();
