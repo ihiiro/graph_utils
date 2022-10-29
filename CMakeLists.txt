@@ -17,12 +17,15 @@ add_library(graph_utils
   SHARED
   ${CMAKE_SOURCE_DIR}/include/graph_utils_export.h
   ${CMAKE_SOURCE_DIR}/src/window.cpp
+  ${CMAKE_SOURCE_DIR}/internal/internal.hpp
+  ${CMAKE_SOURCE_DIR}/internal/internal_window.cpp
 )
 
 # tell compiler where to find public headers
 target_include_directories(graph_utils
   PUBLIC
   ${CMAKE_SOURCE_DIR}/include
+  ${CMAKE_SOURCE_DIR}
   # for dependencies
   ${CMAKE_SOURCE_DIR}/deps
 )
