@@ -1,6 +1,6 @@
 NOTE: DIRECTORY TREE MUST BE CHANGED LATER
 
-add the following inside the deps/ directory:
+make deps/ -> add the following inside the deps/ directory:
  1) a new directory named "glad"
  2) a new directory named "GLFW"
  3) go to this website https://glad.dav1d.de/
