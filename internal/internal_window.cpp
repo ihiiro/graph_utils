@@ -1,6 +1,8 @@
 #include <iostream>
 #include <internal/internal.hpp>
 
+#include <glad/glad.h>
+
 internal::GUTILSproject::~GUTILSproject() {
   glfwTerminate();
 }

@@ -4,6 +4,7 @@
 
 #pragma once
 
+#define GLFW_INCLUDE_NONE // needed to prevent include errors
 #include <GLFW/glfw3.h>
 
 // for exporting symbols
@@ -25,7 +26,7 @@ namespace internal {
     bool createWindow(short width, short height, const char* title);
     bool setFramebufferSizeCallback();
 
-    bool loadGlad();
+    bool initializeGlad();
 
     /*--------------------------------------------------------------------------------------*/
     /*-----------------------------------GLOBAL---------------------------------------------*/

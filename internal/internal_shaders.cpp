@@ -1,7 +1,16 @@
+#include <iostream>
 
+#include <internal/internal.hpp>
 
-// bool loadGlad() {
-//   if (!gladLoadGLLoader(GLADloadproc(glfwGetProcAddress))) {
-//
-//   }
-// }
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+
+bool internal::GUTILSproject::initializeGlad() {
+  if (!gladLoadGLLoader(GLADloadproc(glfwGetProcAddress))) {
+    std::cerr << "ERROR: GLAD could not be initialized\n";
+    std::cerr << "\n";
+    return false;
+  }
+
+  return true;
+}

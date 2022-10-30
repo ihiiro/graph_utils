@@ -10,7 +10,7 @@
 
 #include <cassert>
 
-void test_window(GUTILSproject* project) {
+void testWindow(GUTILSproject* project) {
   std::cout << "TESTING window FILES..." << "\n\n";
 
   // testing internal API
@@ -23,5 +23,6 @@ void test_window(GUTILSproject* project) {
   assert(project->init(500, 500, "test window"));
 
 
+  std::cout << "ok";
   std::cout << "\n\n";
 }

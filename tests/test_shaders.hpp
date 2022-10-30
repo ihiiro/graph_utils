@@ -2,4 +2,4 @@
 
 #include <shared/graph_utils.hpp>
 
-void testWindow(GUTILSproject* project);
+void testShaders(GUTILSproject* project);
