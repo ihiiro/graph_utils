@@ -9,6 +9,7 @@ add_executable(${PROJECT_NAME}
   ./unit_tests.cpp
   ./test_window.cpp
   ../internal/internal_window.cpp
+  ../internal/internal_shaders.cpp
 )
 target_include_directories(${PROJECT_NAME}
   PUBLIC

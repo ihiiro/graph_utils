@@ -1,3 +1,4 @@
+#include <iostream>
 #include <internal/internal.hpp>
 
 internal::GUTILSproject::~GUTILSproject() {
@@ -6,6 +7,8 @@ internal::GUTILSproject::~GUTILSproject() {
 
 bool internal::GUTILSproject::initializeGlfw() {
   if (glfwInit() == GLFW_FALSE) {
+    std::cerr << "ERROR: GLFW could not be initialized\n";
+    std::cerr << "\n";
     return false;
   }
 
@@ -20,6 +23,8 @@ bool internal::GUTILSproject::setGlfwWindowHints() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   }
   catch (...) {
+    std::cerr << "ERROR: GLFW window hints could not be set\n";
+    std::cerr << "\n";
     return false;
   }
 
@@ -31,12 +36,18 @@ bool internal::GUTILSproject::createWindow(short width, short height, const char
     window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (window == NULL) {
       glfwTerminate();
+      std::cerr << "ERROR: window could not be created due to:\n";
+      std::cerr << "ERROR: window == NULL\n";
+      std::cerr << "\n";
+
       return false;
     }
 
     glfwMakeContextCurrent(window);
   }
   catch (...) {
+    std::cerr << "ERROR: window could not be created\n";
+    std::cerr << "\n";
     return false;
   }
 
@@ -50,6 +61,8 @@ bool internal::GUTILSproject::setFramebufferSizeCallback() {
     });
   }
   catch (...) {
+    std::cerr << "ERROR: framebuffer size callback could not be set\n";
+    std::cerr << "\n";
     return false;
   }
 
@@ -57,5 +70,12 @@ bool internal::GUTILSproject::setFramebufferSizeCallback() {
 }
 
 GLFWwindow* internal::GUTILSproject::getWindowObject() const {
+  if (window == NULL) {
+    // this error is only relevant to the assertion in unit_tests.cpp
+    std::cerr << "ERROR: `Project` object was not passed by address\n";
+    std::cerr << "\n";
+    return NULL; // always return NULL not false
+  }
+
   return window;
 }

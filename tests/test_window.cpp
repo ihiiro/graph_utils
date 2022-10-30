@@ -14,13 +14,13 @@ void test_window(GUTILSproject* project) {
   std::cout << "TESTING window FILES..." << "\n\n";
 
   // testing internal API
-  assert(project->initializeGlfw() && "GLFW could not be initialized");
-  assert(project->setGlfwWindowHints() && "GLFW window hints could not be set");
-  assert(project->createWindow(500, 500, "test window") && "window could not be created");
-  assert(project->setFramebufferSizeCallback() && "framebuffer size callback could not be set");
+  assert(project->initializeGlfw());
+  assert(project->setGlfwWindowHints());
+  assert(project->createWindow(500, 500, "test window"));
+  assert(project->setFramebufferSizeCallback());
 
   // testing public API
-  assert(project->init(500, 500, "test window") && "project could not be initialized");
+  assert(project->init(500, 500, "test window"));
 
 
   std::cout << "\n\n";

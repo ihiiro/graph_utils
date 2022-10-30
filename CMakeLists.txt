@@ -17,6 +17,7 @@ add_library(graph_utils
   SHARED
   ${CMAKE_SOURCE_DIR}/src/window.cpp
   ${CMAKE_SOURCE_DIR}/internal/internal_window.cpp
+  ${CMAKE_SOURCE_DIR}/internal/internal_shaders.cpp
 )
 
 # tell compiler where to find public headers

@@ -25,6 +25,13 @@ namespace internal {
     bool createWindow(short width, short height, const char* title);
     bool setFramebufferSizeCallback();
 
+    bool loadGlad();
+
+    /*--------------------------------------------------------------------------------------*/
+    /*-----------------------------------GLOBAL---------------------------------------------*/
+    /*--------------------------------------------------------------------------------------*/
+
+    // cleanup
     GRAPH_UTILS_EXPORT ~GUTILSproject();
   };
 
