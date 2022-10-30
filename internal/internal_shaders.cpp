@@ -14,3 +14,36 @@ bool internal::GUTILSproject::initializeGlad() {
 
   return true;
 }
+
+bool internal::GUTILSproject::startRenderLoop(bool testing) {
+  bool loop_entered = false;
+
+  while (!glfwWindowShouldClose(window)) {
+    loop_entered = true;
+
+
+    // process input
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+      glfwSetWindowShouldClose(window, true);
+    }
+
+    // make window white
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+
+    if (testing) {
+      break;
+    }
+  }
+
+  if (!loop_entered) {
+    std::cerr << "ERROR: render loop could not be started\n";
+    std::cerr << "\n";
+    return false;
+  }
+
+  return true;
+}
