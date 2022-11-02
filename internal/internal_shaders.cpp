@@ -15,7 +15,7 @@ bool internal::GUTILSproject::initializeGlad() {
   return true;
 }
 
-bool internal::GUTILSproject::startRenderLoop(bool testing) {
+bool internal::GUTILSproject::startRenderLoop(float background_color[3], bool testing) {
   bool loop_entered = false;
 
   while (!glfwWindowShouldClose(window)) {
@@ -28,7 +28,7 @@ bool internal::GUTILSproject::startRenderLoop(bool testing) {
     }
 
     // make window white
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(background_color[0], background_color[1], background_color[2], 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glfwSwapBuffers(window);

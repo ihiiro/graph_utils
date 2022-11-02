@@ -12,7 +12,9 @@ void testShaders(GUTILSproject* project) {
   std::cout << "TESTING shaders FILES..." << "\n\n";
 
   assert(project->initializeGlad());
-  assert(project->startRenderLoop(true)); // false when not testing
+
+  float rgb[3] {1, 1, 1};
+  assert(project->startRenderLoop(rgb, true)); // false when not testing
 
   std::cout << "ok";
   std::cout << "\n\n";

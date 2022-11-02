@@ -5,6 +5,7 @@
 #pragma once
 
 #define GLFW_INCLUDE_NONE // needed to prevent include errors
+
 #include <GLFW/glfw3.h>
 
 // for exporting symbols
@@ -30,7 +31,7 @@ namespace internal {
     /*------------------------------------SHADERS-------------------------------------------*/
     /*--------------------------------------------------------------------------------------*/
     bool initializeGlad();
-    bool startRenderLoop(bool testing);
+    bool startRenderLoop(float background_color[3], bool testing);
 
     /*--------------------------------------------------------------------------------------*/
     /*-----------------------------------GLOBAL---------------------------------------------*/
