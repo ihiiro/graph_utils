@@ -8,9 +8,9 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/../bin)
 add_executable(${PROJECT_NAME}
   ./unit_tests.cpp
   ./test_window.cpp
-  ./test_shaders.cpp
+  ./test_rendering.cpp
   ../internal/internal_window.cpp
-  ../internal/internal_shaders.cpp
+  ../internal/internal_rendering.cpp
 )
 target_include_directories(${PROJECT_NAME}
   PUBLIC

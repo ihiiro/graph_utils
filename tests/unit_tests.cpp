@@ -3,7 +3,7 @@
 #include <shared/graph_utils.hpp>
 
 #include <test_window.hpp>
-#include <test_shaders.hpp>
+#include <test_rendering.hpp>
 
 #include <cassert>
 
@@ -18,7 +18,7 @@ int main() {
   // always place the assertion under test_window(&project)
   assert(project.getWindowObject());
 
-  testShaders(&project);
+  testRendering(&project);
 
   return 0;
 }
