@@ -9,7 +9,7 @@
 #include <cassert>
 
 void testRendering(GUTILSproject* project) {
-  std::cout << "TESTING shaders FILES..." << "\n\n";
+  std::cout << "TESTING rendering FILES..." << "\n\n";
 
   assert(project->initializeGlad());
 
