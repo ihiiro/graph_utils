@@ -11,6 +11,8 @@
 // for exporting symbols
 #include <graph_utils_export.h>
 
+#include <functional>
+
 namespace internal {
   class GUTILSproject {
     /*--------------------------------------------------------------------------------------*/
@@ -31,7 +33,14 @@ namespace internal {
     /*------------------------------------RENDERING-------------------------------------------*/
     /*----------------------------------------------------------------------------------------*/
     bool initializeGlad();
-    bool startRenderLoop(float background_color[3], bool testing);
+    bool startRenderLoop(float background_color[3],
+      std::function<bool (float*, float*)> graph,
+      float points[],
+      float points_rgb[3],
+      bool testing);
+
+    static bool scatterPlot(float points[], float points_rgb[3]); // static is required to prevent errors
+
 
     /*--------------------------------------------------------------------------------------*/
     /*-----------------------------------GLOBAL---------------------------------------------*/
