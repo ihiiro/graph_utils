@@ -20,7 +20,7 @@ void testRendering(GUTILSproject* project) {
     project->scatterPlot,
     points,
     points_rgb,
-    true)); // false when not testing
+    false)); // false when not testing
 
   std::cout << "ok";
   std::cout << "\n\n";

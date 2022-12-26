@@ -21,6 +21,8 @@ namespace internal {
   private:
     GLFWwindow* window;
   public:
+    static const short INFO_LOG_SIZE = 512;
+
     // getters
     GLFWwindow* getWindowObject() const;
 

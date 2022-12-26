@@ -16,12 +16,11 @@ void testWindow(GUTILSproject* project) {
   // testing internal API
   assert(project->initializeGlfw());
   assert(project->setGlfwWindowHints());
-  assert(project->createWindow(500, 500, "test window"));
+  assert(project->createWindow(1000, 1000, "test window"));
   assert(project->setFramebufferSizeCallback());
 
   // testing public API
-  assert(project->init(500, 500, "test window"));
-
+  assert(project->init(1000, 1000, "test window"));
 
   std::cout << "ok";
   std::cout << "\n\n";
