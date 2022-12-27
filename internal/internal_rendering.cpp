@@ -87,7 +87,7 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
     glGetShaderInfoLog(vertex_shader, INFO_LOG_SIZE, NULL, info_log);
     std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << info_log;
     std::cerr << "\n";
-
+    glDeleteShader(vertex_shader);
     return false;
   }
 
@@ -115,12 +115,17 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
     glGetProgramInfoLog(ID, INFO_LOG_SIZE, NULL, info_log);
     std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << info_log;
     std::cerr << "\n";
+    glDetachShader(ID, vertex_shader);
     glDeleteShader(vertex_shader);
+    glDetachShader(ID, fragment_shader);
     glDeleteShader(fragment_shader);
+    glDeleteProgram(ID);
     return false;
   }
 
+  glDetachShader(ID, vertex_shader);
   glDeleteShader(vertex_shader);
+  glDetachShader(ID, fragment_shader);
   glDeleteShader(fragment_shader);
 
   // vertices to draw the actual plane
@@ -174,6 +179,7 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
   glDeleteVertexArrays(1, &VAO);
   glDeleteBuffers(1, &EBO);
   glDeleteBuffers(1, &VBO);
+  glDeleteProgram(ID);
 
   return true;
 }
