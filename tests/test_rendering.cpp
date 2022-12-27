@@ -18,7 +18,7 @@ void testRendering(GUTILSproject* project) {
   assert(project->startRenderLoop(project->scatterPlot,
     points,
     points_rgb,
-    false)); // false when not testing
+    false)); // true when quick testing/false for renderloop
 
   std::cout << "ok";
   std::cout << "\n\n";
