@@ -125,45 +125,55 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
 
   // vertices to draw the actual plane
   float plane_vertices[] {
-    // vertices        // color rgb values
-    -.9f, .9f, .0f,   1.0f, 1.0f, 1.0f, // vertical line
-    -.9f, -.9f, .0f,  1.0f, 1.0f, 1.0f,
-
-    .9f, -.9f, .0f,    1.0f, 1.0f, 1.0f, // horizontal line
-    -.9f, -.9f, .0f,   1.0f, 1.0f, 1.0f,
-
-    -.9f, .9f, .0f,   1.0f, 1.0f, 1.0f, // vertical line arrow
-    -.92f, .865f, .0f,  1.0f, 1.0f, 1.0f,
     -.9f, .9f, .0f,   1.0f, 1.0f, 1.0f,
+    -.9f, -.9f, .0f,  1.0f, 1.0f, 1.0f,
+    .9f, -.9f, .0f,    1.0f, 1.0f, 1.0f,
+    -.92f, .865f, .0f,  1.0f, 1.0f, 1.0f,
     -.88f, .865f, .0f, 1.0f, 1.0f, 1.0f,
-
-    .9f, -.9f, .0f,   1.0f, 1.0f, 1.0f, // horizontal line arrow
     .88f, -.88, .0f,  1.0f, 1.0f, 1.0f,
-    .9f, -.9f, .0f,   1.0f, 1.0f, 1.0f,
     .88f, -.92f, .0f, 1.0f, 1.0f, 1.0f,
+  };
 
+  unsigned short indices[] {
+    0, 1, 2,
+    1, 0, 3,
+    0, 4, 2,
+    5, 2, 6,
   };
 
   unsigned int VAO; // vertex array object
   unsigned int VBO; // vertex buffer object
+  unsigned int EBO; // element buffer object
 
   // generate objects
   glGenVertexArrays(1, &VAO);
   glGenBuffers(1, &VBO);
+  glGenBuffers(1, &EBO);
 
   // bind/configure objects
   glBindVertexArray(VAO);
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(plane_vertices), plane_vertices, GL_STATIC_DRAW);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
+
   // for color vertex attributes
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
   glUseProgram(ID);
   glBindVertexArray(VAO);
-  glDrawArrays(GL_LINES, 0, 12);
+  glDrawElements(GL_LINES, 12, GL_UNSIGNED_SHORT, 0);
+
+  // cleanup
+  glBindVertexArray(0);
+  glDeleteVertexArrays(1, &VAO);
+  glDeleteBuffers(1, &EBO);
+  glDeleteBuffers(1, &VBO);
 
   return true;
 }
