@@ -35,8 +35,7 @@ namespace internal {
     /*------------------------------------RENDERING-------------------------------------------*/
     /*----------------------------------------------------------------------------------------*/
     bool initializeGlad();
-    bool startRenderLoop(float background_color[3],
-      std::function<bool (float*, float*)> graph,
+    bool startRenderLoop(std::function<bool (float*, float*)> graph,
       float points[],
       float points_rgb[3],
       bool testing);

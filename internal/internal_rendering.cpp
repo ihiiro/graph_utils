@@ -17,8 +17,7 @@ bool internal::GUTILSproject::initializeGlad() {
   return true;
 }
 
-bool internal::GUTILSproject::startRenderLoop(float background_color[3],
-  std::function<bool (float*, float*)> graph,
+bool internal::GUTILSproject::startRenderLoop(std::function<bool (float*, float*)> graph,
   float points[],
   float points_rgb[],
   bool testing) {
@@ -34,7 +33,7 @@ bool internal::GUTILSproject::startRenderLoop(float background_color[3],
     }
 
     // background color
-    glClearColor(background_color[0], background_color[1], background_color[2], 1.0f);
+    glClearColor(.0f, .0f, .0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     // graph
@@ -127,21 +126,21 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
   // vertices to draw the actual plane
   float plane_vertices[] {
     // vertices        // color rgb values
-    -.9f, .9f, .0f,   .0f, .0f, .0f, // vertical line
-    -.9f, -.9f, .0f,  .0f, .0f, .0f,
+    -.9f, .9f, .0f,   1.0f, 1.0f, 1.0f, // vertical line
+    -.9f, -.9f, .0f,  1.0f, 1.0f, 1.0f,
 
-    .9f, -.9f, .0f,    .0f, .0f, .0f, // horizontal line
-    -.9f, -.9f, .0f,   .0f, .0f, .0f,
+    .9f, -.9f, .0f,    1.0f, 1.0f, 1.0f, // horizontal line
+    -.9f, -.9f, .0f,   1.0f, 1.0f, 1.0f,
 
-    -.9f, .9f, .0f,   .0f, .0f, .0f, // vertical line arrow
-    -.92f, .865f, .0f,  .0f, .0f, .0f,
-    -.9f, .9f, .0f,   .0f, .0f, .0f,
-    -.88f, .865f, .0f, .0f, .0f, .0f,
+    -.9f, .9f, .0f,   1.0f, 1.0f, 1.0f, // vertical line arrow
+    -.92f, .865f, .0f,  1.0f, 1.0f, 1.0f,
+    -.9f, .9f, .0f,   1.0f, 1.0f, 1.0f,
+    -.88f, .865f, .0f, 1.0f, 1.0f, 1.0f,
 
-    .9f, -.9f, .0f,   .0f, .0f, .0f,
-    .88f, -.88, .0f,  .0f, .0f, .0f,
-    .9f, -.9f, .0f,   .0f, .0f, .0f,
-    .88f, -.92f, .0f, .0f, .0f, .0f,
+    .9f, -.9f, .0f,   1.0f, 1.0f, 1.0f, // horizontal line arrow
+    .88f, -.88, .0f,  1.0f, 1.0f, 1.0f,
+    .9f, -.9f, .0f,   1.0f, 1.0f, 1.0f,
+    .88f, -.92f, .0f, 1.0f, 1.0f, 1.0f,
 
   };
 

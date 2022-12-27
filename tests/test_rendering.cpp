@@ -13,11 +13,9 @@ void testRendering(GUTILSproject* project) {
 
   assert(project->initializeGlad());
 
-  float background_rgb[3] {1, 0, 0};
   float points_rgb[3] {0, 1, 0};
   float points[] {1, 2, 3, 4};
-  assert(project->startRenderLoop(background_rgb,
-    project->scatterPlot,
+  assert(project->startRenderLoop(project->scatterPlot,
     points,
     points_rgb,
     false)); // false when not testing
