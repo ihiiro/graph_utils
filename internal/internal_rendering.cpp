@@ -58,6 +58,73 @@ bool internal::GUTILSproject::startRenderLoop(std::function<bool (float*, float*
   return true;
 }
 
+unsigned int createVertexShader(const char* vertex_shader_source) {
+  int success;
+  char info_log[internal::GUTILSproject::INFO_LOG_SIZE];
+
+  unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+  glShaderSource(vertex_shader, 1, &vertex_shader_source, NULL);
+  glCompileShader(vertex_shader);
+  glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
+  if (!success) {
+    glGetShaderInfoLog(vertex_shader, internal::GUTILSproject::INFO_LOG_SIZE, NULL, info_log);
+    std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << info_log;
+    std::cerr << "\n";
+    glDeleteShader(vertex_shader);
+    return 0;
+  }
+
+  return vertex_shader;
+}
+
+unsigned int createFragmentShader(const char* fragment_shader_source) {
+  int success;
+  char info_log[internal::GUTILSproject::INFO_LOG_SIZE];
+
+  unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+  glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
+  glCompileShader(fragment_shader);
+  glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
+  if (!success) {
+    glGetShaderInfoLog(fragment_shader, internal::GUTILSproject::INFO_LOG_SIZE, NULL, info_log);
+    std::cerr << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << info_log;
+    std::cerr << "\n";
+    glDeleteShader(fragment_shader);
+    return 0;
+  }
+
+  return fragment_shader;
+}
+
+unsigned int createShaderProgram(unsigned int vertex_shader, unsigned int fragment_shader) {
+  int success;
+  char info_log[internal::GUTILSproject::INFO_LOG_SIZE];
+
+  unsigned int ID = glCreateProgram();
+  glAttachShader(ID, vertex_shader);
+  glAttachShader(ID, fragment_shader);
+  glLinkProgram(ID);
+  glGetProgramiv(ID, GL_LINK_STATUS, &success);
+  if (!success) {
+    glGetProgramInfoLog(ID, internal::GUTILSproject::INFO_LOG_SIZE, NULL, info_log);
+    std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << info_log;
+    std::cerr << "\n";
+    glDetachShader(ID, vertex_shader);
+    glDeleteShader(vertex_shader);
+    glDetachShader(ID, fragment_shader);
+    glDeleteShader(fragment_shader);
+    glDeleteProgram(ID);
+    return 0;
+  }
+
+  glDetachShader(ID, vertex_shader);
+  glDeleteShader(vertex_shader);
+  glDetachShader(ID, fragment_shader);
+  glDeleteShader(fragment_shader);
+
+  return ID;
+}
+
 bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
   const char* VERTEX_SHADER_SOURCE = "#version 330 core\n"
                                      "layout (location = 0) in vec3 input_position;\n"
@@ -75,58 +142,16 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
                                        " fragment_color = vec4(output_color, 1.0f);\n"
                                        "}\0";
 
-  int success;
-  char info_log[INFO_LOG_SIZE];
+
 
   // vertex shader
-  unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-  glShaderSource(vertex_shader, 1, &VERTEX_SHADER_SOURCE, NULL);
-  glCompileShader(vertex_shader);
-  glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
-  if (!success) {
-    glGetShaderInfoLog(vertex_shader, INFO_LOG_SIZE, NULL, info_log);
-    std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << info_log;
-    std::cerr << "\n";
-    glDeleteShader(vertex_shader);
-    return false;
-  }
+  unsigned int vertex_shader = createVertexShader(VERTEX_SHADER_SOURCE);
 
   // fragment shader
-  unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(fragment_shader, 1, &FRAGMENT_SHADER_SOURCE, NULL);
-  glCompileShader(fragment_shader);
-  glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
-  if (!success) {
-    glGetShaderInfoLog(fragment_shader, INFO_LOG_SIZE, NULL, info_log);
-    std::cerr << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << info_log;
-    std::cerr << "\n";
-    glDeleteShader(vertex_shader);
-    glDeleteShader(fragment_shader);
-    return false;
-  }
+  unsigned int fragment_shader = createFragmentShader(FRAGMENT_SHADER_SOURCE);
 
   // shader program
-  unsigned int ID = glCreateProgram();
-  glAttachShader(ID, vertex_shader);
-  glAttachShader(ID, fragment_shader);
-  glLinkProgram(ID);
-  glGetProgramiv(ID, GL_LINK_STATUS, &success);
-  if (!success) {
-    glGetProgramInfoLog(ID, INFO_LOG_SIZE, NULL, info_log);
-    std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << info_log;
-    std::cerr << "\n";
-    glDetachShader(ID, vertex_shader);
-    glDeleteShader(vertex_shader);
-    glDetachShader(ID, fragment_shader);
-    glDeleteShader(fragment_shader);
-    glDeleteProgram(ID);
-    return false;
-  }
-
-  glDetachShader(ID, vertex_shader);
-  glDeleteShader(vertex_shader);
-  glDetachShader(ID, fragment_shader);
-  glDeleteShader(fragment_shader);
+  unsigned int shader_program = createShaderProgram(vertex_shader, fragment_shader);
 
   // vertices to draw the actual plane
   float plane_vertices[] {
@@ -170,7 +195,7 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
-  glUseProgram(ID);
+  glUseProgram(shader_program);
   glBindVertexArray(VAO);
   glDrawElements(GL_LINES, 12, GL_UNSIGNED_SHORT, 0);
 
@@ -179,7 +204,7 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
   glDeleteVertexArrays(1, &VAO);
   glDeleteBuffers(1, &EBO);
   glDeleteBuffers(1, &VBO);
-  glDeleteProgram(ID);
+  glDeleteProgram(shader_program);
 
   return true;
 }
