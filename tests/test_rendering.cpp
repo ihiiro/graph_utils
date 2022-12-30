@@ -13,12 +13,12 @@ void testRendering(GUTILSproject* project) {
 
   assert(project->initializeGlad());
 
-  float points_rgb[3] {0, 1, 0};
+  float points_rgb[] {1, 0, 0};
   float points[] {1, 2, 3, 4};
   assert(project->startRenderLoop(project->scatterPlot,
     points,
     points_rgb,
-    true)); // true when quick testing/false for renderloop
+    false)); // true when quick testing/false for renderloop
 
   std::cout << "ok";
   std::cout << "\n\n";

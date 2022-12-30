@@ -142,15 +142,8 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
                                        " fragment_color = vec4(output_color, 1.0f);\n"
                                        "}\0";
 
-
-
-  // vertex shader
   unsigned int vertex_shader = createVertexShader(VERTEX_SHADER_SOURCE);
-
-  // fragment shader
   unsigned int fragment_shader = createFragmentShader(FRAGMENT_SHADER_SOURCE);
-
-  // shader program
   unsigned int shader_program = createShaderProgram(vertex_shader, fragment_shader);
 
   // vertices to draw the actual plane
@@ -163,7 +156,6 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
     .88f, -.88, .0f,  1.0f, 1.0f, 1.0f,
     .88f, -.92f, .0f, 1.0f, 1.0f, 1.0f,
   };
-
   unsigned short indices[] {
     0, 1, 2,
     1, 0, 3,
@@ -195,6 +187,7 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
+  // drawing segment
   glUseProgram(shader_program);
   glBindVertexArray(VAO);
   glDrawElements(GL_LINES, 12, GL_UNSIGNED_SHORT, 0);
