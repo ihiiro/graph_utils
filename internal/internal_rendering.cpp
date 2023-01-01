@@ -6,6 +6,8 @@
 #include <glad/glad.h>
 
 #include <functional>
+#include <vector>
+// #include <max_element>
 
 bool internal::GUTILSproject::initializeGlad() {
   if (!gladLoadGLLoader(GLADloadproc(glfwGetProcAddress))) {
@@ -17,8 +19,9 @@ bool internal::GUTILSproject::initializeGlad() {
   return true;
 }
 
-bool internal::GUTILSproject::startRenderLoop(std::function<bool (float*, float*)> graph,
-  float points[],
+bool internal::GUTILSproject::startRenderLoop(std::function<bool (float points[][2], float points_rgb[], int points_array_length)> graph,
+  float points[][2],
+  int points_array_length,
   float points_rgb[],
   bool testing) {
   bool loop_entered = false;
@@ -37,7 +40,7 @@ bool internal::GUTILSproject::startRenderLoop(std::function<bool (float*, float*
     glClear(GL_COLOR_BUFFER_BIT);
 
     // graph
-    if (!graph(points, points_rgb)) {
+    if (!graph(points, points_rgb, points_array_length)) {
       return false;
     }
 
@@ -125,7 +128,22 @@ unsigned int createShaderProgram(unsigned int vertex_shader, unsigned int fragme
   return ID;
 }
 
-bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
+float max(float array_of_floats[][2], int length_of_array) {
+  std::vector<float> vector_1d;
+  float temp;
+
+  for (int i = 0; i < length_of_array; i++) {
+    float temp_x = array_of_floats[i][0];
+    float temp_y = array_of_floats[i][1];
+
+    temp = (temp_x > temp_y) ? temp_x : temp_y;
+    vector_1d.push_back(temp);
+  }
+
+  return *std::max_element(vector_1d.begin(), vector_1d.end());
+}
+
+bool internal::GUTILSproject::scatterPlot(float points[][2], float points_rgb[], int points_array_length) {
   const char* VERTEX_SHADER_SOURCE = "#version 330 core\n"
                                      "layout (location = 0) in vec3 input_position;\n"
                                      "layout (location = 1) in vec3 input_color;\n"
@@ -186,6 +204,25 @@ bool internal::GUTILSproject::scatterPlot(float points[], float points_rgb[]) {
   // for color vertex attributes
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
+
+  // points
+  std::vector<float> points_vertices;
+  float coefficient = 2.7;
+  // float uniform_distance = 1.8 / points_array_length;
+
+  for (int i = 0; i < points_array_length; i++) {
+    float max_coordinate = max(points, points_array_length);
+    float x = points[i][0];
+    float y = points[i][1];
+
+    points_vertices.push_back(-.9+x/max_coordinate*coefficient);
+    points_vertices.push_back(-.9+y/max_coordinate*coefficient);
+  }
+
+  for (int i = 0, size = points_vertices.size(); i < size; i++) {
+    std::cout << points_vertices[i];
+    std::cout << "\n";
+  }
 
   // drawing segment
   glUseProgram(shader_program);
