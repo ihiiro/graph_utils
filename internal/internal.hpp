@@ -42,7 +42,7 @@ namespace internal {
       bool testing);
 
     static bool scatterPlot(float points[][2], float points_rgb[], int points_array_length); // static is required to prevent errors
-
+    static float max(float array_of_floats[][2], int length_of_array);
 
     /*--------------------------------------------------------------------------------------*/
     /*-----------------------------------GLOBAL---------------------------------------------*/

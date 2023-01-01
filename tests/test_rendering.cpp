@@ -22,6 +22,10 @@ void testRendering(GUTILSproject* project) {
     points_rgb,
     true)); // true when quick testing/false for renderloop
 
+  float float_array[][2] { {1.2, 1.5}, {1.7, 2.7}, {2.2, 7.1} };
+  int size = sizeof(float_array)/sizeof(float_array[0]);
+  assert(GUTILSproject::max(float_array, size) == 7.1f && "max method does not return max number");
+
   std::cout << "ok";
   std::cout << "\n\n";
 }

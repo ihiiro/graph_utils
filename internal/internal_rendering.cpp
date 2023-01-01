@@ -128,9 +128,10 @@ unsigned int createShaderProgram(unsigned int vertex_shader, unsigned int fragme
   return ID;
 }
 
-float max(float array_of_floats[][2], int length_of_array) {
+float internal::GUTILSproject::max(float array_of_floats[][2], int length_of_array) {
   std::vector<float> vector_1d;
   float temp;
+  float max_number;
 
   for (int i = 0; i < length_of_array; i++) {
     float temp_x = array_of_floats[i][0];
@@ -140,7 +141,12 @@ float max(float array_of_floats[][2], int length_of_array) {
     vector_1d.push_back(temp);
   }
 
-  return *std::max_element(vector_1d.begin(), vector_1d.end());
+  max_number = *std::max_element(vector_1d.begin(), vector_1d.end());
+  // this is for freeing vector from memory
+  vector_1d.clear();
+  vector_1d.shrink_to_fit();
+
+  return max_number;
 }
 
 bool internal::GUTILSproject::scatterPlot(float points[][2], float points_rgb[], int points_array_length) {
