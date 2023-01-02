@@ -7,53 +7,10 @@
 
 #include <functional>
 #include <vector>
-// #include <max_element>
 
 bool internal::GUTILSproject::initializeGlad() {
   if (!gladLoadGLLoader(GLADloadproc(glfwGetProcAddress))) {
     std::cerr << "ERROR: GLAD could not be initialized\n";
-    std::cerr << "\n";
-    return false;
-  }
-
-  return true;
-}
-
-bool internal::GUTILSproject::startRenderLoop(std::function<bool (float points[][2], float points_rgb[], int points_array_length)> graph,
-  float points[][2],
-  int points_array_length,
-  float points_rgb[],
-  bool testing) {
-  bool loop_entered = false;
-
-  while (!glfwWindowShouldClose(window)) {
-    loop_entered = true;
-
-
-    // process input
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-      glfwSetWindowShouldClose(window, true);
-    }
-
-    // background color
-    glClearColor(.0f, .0f, .0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    // graph
-    if (!graph(points, points_rgb, points_array_length)) {
-      return false;
-    }
-
-    glfwSwapBuffers(window);
-    glfwPollEvents();
-
-    if (testing) {
-      break;
-    }
-  }
-
-  if (!loop_entered) {
-    std::cerr << "ERROR: render loop could not be started\n";
     std::cerr << "\n";
     return false;
   }
@@ -149,7 +106,10 @@ float internal::GUTILSproject::max(float array_of_floats[][2], int length_of_arr
   return max_number;
 }
 
-bool internal::GUTILSproject::scatterPlot(float points[][2], float points_rgb[], int points_array_length) {
+bool internal::GUTILSproject::scatterplot(float points[][2], float points_rgb[], int points_array_length, bool testing) {
+  bool loop_entered = false;
+
+  // configuration
   const char* VERTEX_SHADER_SOURCE = "#version 330 core\n"
                                      "layout (location = 0) in vec3 input_position;\n"
                                      "layout (location = 1) in vec3 input_color;\n"
@@ -177,7 +137,7 @@ bool internal::GUTILSproject::scatterPlot(float points[][2], float points_rgb[],
     .9f, -.9f, .0f,    1.0f, 1.0f, 1.0f,
     -.92f, .865f, .0f,  1.0f, 1.0f, 1.0f,
     -.88f, .865f, .0f, 1.0f, 1.0f, 1.0f,
-    .88f, -.88, .0f,  1.0f, 1.0f, 1.0f,
+    .88f, -.88f, .0f,  1.0f, 1.0f, 1.0f,
     .88f, -.92f, .0f, 1.0f, 1.0f, 1.0f,
   };
   unsigned short indices[] {
@@ -213,34 +173,105 @@ bool internal::GUTILSproject::scatterPlot(float points[][2], float points_rgb[],
 
   // points
   std::vector<float> points_vertices;
-  float coefficient = 2.7;
+  float coefficient = 1.755;
   // float uniform_distance = 1.8 / points_array_length;
+  float max_coordinate = max(points, points_array_length);
+
+  if (max_coordinate == 0) {
+    std::cerr << "MAX COORDINATE IS 0\n";
+    std::cerr << "\n";
+    return false;
+  }
+
+  float x;
+  float y;
 
   for (int i = 0; i < points_array_length; i++) {
-    float max_coordinate = max(points, points_array_length);
-    float x = points[i][0];
-    float y = points[i][1];
+    x = points[i][0];
+    y = points[i][1];
 
     points_vertices.push_back(-.9+x/max_coordinate*coefficient);
     points_vertices.push_back(-.9+y/max_coordinate*coefficient);
+    points_vertices.push_back(.0f);
+    points_vertices.push_back(points_rgb[0]);
+    points_vertices.push_back(points_rgb[1]);
+    points_vertices.push_back(points_rgb[2]);
   }
+
+  int points_vertices_size = points_vertices.size();
+
+  unsigned int VAO_points; // vertex array object
+  unsigned int VBO_points; // vertex buffer object
+
+  // generate objects
+  glGenVertexArrays(1, &VAO_points);
+  glGenBuffers(1, &VBO_points);
+
+  // bind/configure objects
+  glBindVertexArray(VAO_points);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_points);
+  glBufferData(GL_ARRAY_BUFFER, points_vertices_size, &points_vertices[0], GL_STATIC_DRAW);
+
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+  glEnableVertexAttribArray(0);
+
+  // for color vertex attributes
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+  glEnableVertexAttribArray(1);
+
 
   for (int i = 0, size = points_vertices.size(); i < size; i++) {
     std::cout << points_vertices[i];
     std::cout << "\n";
   }
 
-  // drawing segment
-  glUseProgram(shader_program);
-  glBindVertexArray(VAO);
-  glDrawElements(GL_LINES, 12, GL_UNSIGNED_SHORT, 0);
+  // render loop
+  while (!glfwWindowShouldClose(window)) {
+    loop_entered = true;
+
+
+    // process input
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+      glfwSetWindowShouldClose(window, true);
+    }
+
+    // background color
+    glClearColor(.0f, .0f, .0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // drawing segment
+    glUseProgram(shader_program);
+    glBindVertexArray(VAO);
+    glDrawElements(GL_LINES, 12, GL_UNSIGNED_SHORT, 0);
+
+    glBindVertexArray(VAO_points);
+    glPointSize(10.0f);
+    glDrawArrays(GL_POINTS, 0, points_array_length);
+
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+
+    if (testing) {
+      break;
+    }
+  }
 
   // cleanup
   glBindVertexArray(0);
   glDeleteVertexArrays(1, &VAO);
+  glDeleteVertexArrays(1, &VAO_points);
   glDeleteBuffers(1, &EBO);
   glDeleteBuffers(1, &VBO);
+  glDeleteBuffers(1, &VBO_points);
   glDeleteProgram(shader_program);
+  points_vertices.clear();
+  points_vertices.shrink_to_fit();
+
+  if (!loop_entered) {
+    std::cerr << "ERROR: render loop could not be started\n";
+    std::cerr << "\n";
+    return false;
+  }
 
   return true;
 }

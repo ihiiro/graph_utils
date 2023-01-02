@@ -13,14 +13,11 @@ void testRendering(GUTILSproject* project) {
 
   assert(project->initializeGlad());
 
-  float points_rgb[] {1, 0, 0};
-  float points[][2] { {0, 0}, {1, 0}, {34, 34}, {900000, 2} };
+  float points_rgb[] {1.0f, .0f, .0f};
+  float points[][2] { {10, 0}, {3, 3}, {10, 10} };
   int points_array_length = sizeof(points)/sizeof(points[0]);
-  assert(project->startRenderLoop(project->scatterPlot,
-    points,
-    points_array_length,
-    points_rgb,
-    true)); // true when quick testing/false for renderloop
+  // true when quick testing/false for renderloop
+  assert(project->scatterplot(points, points_rgb, points_array_length, false));
 
   float float_array[][2] { {1.2, 1.5}, {1.7, 2.7}, {2.2, 7.1} };
   int size = sizeof(float_array)/sizeof(float_array[0]);

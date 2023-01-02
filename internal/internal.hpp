@@ -35,13 +35,9 @@ namespace internal {
     /*------------------------------------RENDERING-------------------------------------------*/
     /*----------------------------------------------------------------------------------------*/
     bool initializeGlad();
-    bool startRenderLoop(std::function<bool (float points[][2], float points_rgb[], int points_array_length)> graph,
-      float points[][2],
-      int points_array_length,
-      float points_rgb[],
-      bool testing);
+    bool scatterplot(float points[][2], float points_rgb[], int points_array_length, bool testing);
 
-    static bool scatterPlot(float points[][2], float points_rgb[], int points_array_length); // static is required to prevent errors
+    // static bool scatterPlot(float points[][2], float points_rgb[], int points_array_length); // static is required to prevent errors
     static float max(float array_of_floats[][2], int length_of_array);
 
     /*--------------------------------------------------------------------------------------*/
