@@ -198,8 +198,6 @@ bool internal::GUTILSproject::scatterplot(float points[][2], float points_rgb[],
     points_vertices.push_back(points_rgb[2]);
   }
 
-  int points_vertices_size = points_vertices.size();
-
   unsigned int VAO_points; // vertex array object
   unsigned int VBO_points; // vertex buffer object
 
@@ -210,7 +208,7 @@ bool internal::GUTILSproject::scatterplot(float points[][2], float points_rgb[],
   // bind/configure objects
   glBindVertexArray(VAO_points);
   glBindBuffer(GL_ARRAY_BUFFER, VBO_points);
-  glBufferData(GL_ARRAY_BUFFER, points_vertices_size, &points_vertices[0], GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * points_vertices.size(), &points_vertices[0], GL_STATIC_DRAW);
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
@@ -225,6 +223,7 @@ bool internal::GUTILSproject::scatterplot(float points[][2], float points_rgb[],
     std::cout << "\n";
   }
 
+  glPointSize(5.0f);
   // render loop
   while (!glfwWindowShouldClose(window)) {
     loop_entered = true;
@@ -245,7 +244,6 @@ bool internal::GUTILSproject::scatterplot(float points[][2], float points_rgb[],
     glDrawElements(GL_LINES, 12, GL_UNSIGNED_SHORT, 0);
 
     glBindVertexArray(VAO_points);
-    glPointSize(10.0f);
     glDrawArrays(GL_POINTS, 0, points_array_length);
 
     glfwSwapBuffers(window);
