@@ -13,7 +13,7 @@ void testRendering(GUTILSproject* project) {
 
   assert(project->initializeGlad());
 
-  float points_rgb[] {1.0f, .0f, .0f};
+  float points_rgb[] {.0f, .0f, 1.0f};
   float points[][2] { {0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5} };
   int points_array_length = sizeof(points)/sizeof(points[0]);
   // true when quick testing/false for renderloop
