@@ -132,13 +132,13 @@ bool internal::GUTILSproject::scatterplot(float points[][2], float points_rgb[],
 
   // vertices to draw the actual plane
   float plane_vertices[] {
-    -.9f, .9f, .0f,   1.0f, 1.0f, 1.0f,
-    -.9f, -.9f, .0f,  1.0f, 1.0f, 1.0f,
-    .9f, -.9f, .0f,    1.0f, 1.0f, 1.0f,
-    -.92f, .865f, .0f,  1.0f, 1.0f, 1.0f,
-    -.88f, .865f, .0f, 1.0f, 1.0f, 1.0f,
-    .88f, -.88f, .0f,  1.0f, 1.0f, 1.0f,
-    .88f, -.92f, .0f, 1.0f, 1.0f, 1.0f,
+    -.9f, .9f, .0f,   .0f, .0f, .0f,
+    -.9f, -.9f, .0f,  .0f, .0f, .0f,
+    .9f, -.9f, .0f,    .0f, .0f, .0f,
+    -.92f, .865f, .0f,  .0f, .0f, .0f,
+    -.88f, .865f, .0f, .0f, .0f, .0f,
+    .88f, -.88f, .0f,  .0f, .0f, .0f,
+    .88f, -.92f, .0f, .0f, .0f, .0f,
   };
   unsigned short indices[] {
     0, 1, 2,
@@ -217,12 +217,6 @@ bool internal::GUTILSproject::scatterplot(float points[][2], float points_rgb[],
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
-
-  for (int i = 0, size = points_vertices.size(); i < size; i++) {
-    std::cout << points_vertices[i];
-    std::cout << "\n";
-  }
-
   glPointSize(5.0f);
   // render loop
   while (!glfwWindowShouldClose(window)) {
@@ -235,16 +229,24 @@ bool internal::GUTILSproject::scatterplot(float points[][2], float points_rgb[],
     }
 
     // background color
-    glClearColor(.0f, .0f, .0f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     // drawing segment
     glUseProgram(shader_program);
+
+    // draw the scatterplot
+    glLineWidth(3.0f);
     glBindVertexArray(VAO);
     glDrawElements(GL_LINES, 12, GL_UNSIGNED_SHORT, 0);
 
+    // draw the points
     glBindVertexArray(VAO_points);
     glDrawArrays(GL_POINTS, 0, points_array_length);
+
+    // draw lines between points
+    glLineWidth(2.0f);
+    glDrawArrays(GL_LINE_LOOP, 0, points_array_length);
 
     glfwSwapBuffers(window);
     glfwPollEvents();

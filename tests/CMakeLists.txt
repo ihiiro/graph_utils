@@ -11,6 +11,8 @@ add_executable(${PROJECT_NAME}
   ./test_rendering.cpp
   ../internal/internal_window.cpp
   ../internal/internal_rendering.cpp
+  ${CMAKE_SOURCE_DIR}/../src/window.cpp
+  ${CMAKE_SOURCE_DIR}/../src/rendering.cpp
 )
 target_include_directories(${PROJECT_NAME}
   PUBLIC

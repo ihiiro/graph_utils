@@ -21,7 +21,8 @@ export symbols (needed for windows dlls)
 
 class GRAPH_UTILS_EXPORT GUTILSproject: public internal::GUTILSproject {
 public:
-  bool init(short width, short height, const char* title);
+  GUTILSproject(short width, short height, const char* title);
+  bool useScatterplot(float points[][2], float points_rgb[], int points_array_length);
 };
 
 /*--------------------------------------------------------------------------------------*/
