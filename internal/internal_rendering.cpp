@@ -217,12 +217,6 @@ bool internal::GUTILSproject::scatterplot(float points[][2], float points_rgb[],
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
-
-  for (int i = 0, size = points_vertices.size(); i < size; i++) {
-    std::cout << points_vertices[i];
-    std::cout << "\n";
-  }
-
   glPointSize(5.0f);
   // render loop
   while (!glfwWindowShouldClose(window)) {

@@ -23,6 +23,8 @@ void testRendering(GUTILSproject* project) {
   int size = sizeof(float_array)/sizeof(float_array[0]);
   assert(GUTILSproject::max(float_array, size) == 7.1f && "max method does not return max number");
 
+  // assert(project->useScatterplot(points, points_rgb, points_array_length));
+
   std::cout << "ok";
   std::cout << "\n\n";
 }

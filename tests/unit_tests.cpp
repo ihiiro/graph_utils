@@ -10,7 +10,7 @@
 int main() {
   std::cout << "UNIT TESTS\n\n";
 
-  GUTILSproject project;
+  GUTILSproject project(1000, 1000, "test window");
 
   testWindow(&project);
 
